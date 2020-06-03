@@ -88,6 +88,7 @@
       v-else
       :tabindex="tabindex"
       class="el-textarea__inner"
+      @keydown="enterHandle"
       @compositionstart="handleCompositionStart"
       @compositionupdate="handleCompositionUpdate"
       @compositionend="handleCompositionEnd"
@@ -104,7 +105,10 @@
       :aria-label="label"
     >
     </textarea>
-    <span v-if="isWordLimitVisible && type === 'textarea'" class="el-input__count">{{ textLength }}/{{ upperLimit }}</span>
+    <span v-if="type === 'textarea'" class="el-input__count">
+      <span v-if="$slots.keydownTip"><slot name="keydownTip"></slot></span>
+      <span v-if="isWordLimitVisible" :style="{marginLeft: $slots.keydownTip ? '4px' : null}">{{ textLength }}/{{ upperLimit }}</span>
+    </span>
   </div>
 </template>
 <script>
@@ -285,6 +289,12 @@
     },
 
     methods: {
+      enterHandle(event) {
+        if (event.keyCode === 13) {
+          event.preventDefault();
+          return false;
+        }
+      },
       focus() {
         this.getInput().focus();
       },

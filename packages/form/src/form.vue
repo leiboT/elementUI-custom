@@ -106,6 +106,30 @@
           field.clearValidate();
         });
       },
+      errorFieldScrollAndFocus(arr) {
+        const {$el: Dom, $children} = arr[0];
+        const children = $children[1] || {};
+        let {$el: childDom, $options, focus} = children;
+        if ($options.name === 'sfLabelValue') {
+          const child = children.$children;
+          if (child && child[0]) {
+            childDom = child[0].$el;
+            focus = child[0].focus;
+          }
+        }
+        if (Dom) {
+          Dom.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center'
+          });
+        }
+        if (typeof focus === 'function') {
+          focus();
+        }
+        if (document.activeElement !== childDom && typeof childDom.focus === 'function') {
+          childDom.click();
+        }
+      },
       validate(callback) {
         if (!this.model) {
           console.warn('[Element Warn][Form]model is required for validate to work!');
@@ -124,18 +148,21 @@
 
         let valid = true;
         let count = 0;
+        let hasErrorFieldInstances = [];
         // 如果需要验证的fields为空，调用验证时立刻返回callback
         if (this.fields.length === 0 && callback) {
           callback(true);
         }
         let invalidFields = {};
         this.fields.forEach(field => {
-          field.validate('', (message, field) => {
+          field.validate('', (message, fieldRule) => {
             if (message) {
               valid = false;
+              hasErrorFieldInstances.push(field);
             }
-            invalidFields = objectAssign({}, invalidFields, field);
+            invalidFields = objectAssign({}, invalidFields, fieldRule);
             if (typeof callback === 'function' && ++count === this.fields.length) {
+              !valid && this.errorFieldScrollAndFocus(hasErrorFieldInstances);
               callback(valid, invalidFields);
             }
           });

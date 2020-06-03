@@ -8,7 +8,7 @@
 :::demo `v-model`的值为当前被选中的`el-option`的 value 属性值
 ```html
 <template>
-  <el-select v-model="value" placeholder="请选择">
+  <el-select v-model="value" placeholder="请选择" @infiniteScroll="infiniteScroll">
     <el-option
       v-for="item in options"
       :key="item.value"
@@ -26,10 +26,15 @@
         value: '5930707AEE0F418DA6AF3BBDF3B77D3C'
       }
     },
+    methods: {
+      infiniteScroll: function() {
+        debugger
+      }
+    },
     created(){
       setTimeout(() => {
         debugger
-this.options = [{
+        this.options = [{
           value: '选项1',
           label: '黄金糕'
         }, {
@@ -44,7 +49,24 @@ this.options = [{
         }, {
           value: '选项5',
           label: '北京烤鸭'
-        }]
+        },
+        {
+          value: '选项6',
+          label: '北京烤鸭'
+        },
+        {
+          value: '选项7',
+          label: '北京烤鸭'
+        },
+        {
+          value: '选项8',
+          label: '北京烤鸭'
+        },
+        {
+          value: '选项9',
+          label: '北京烤鸭'
+        },
+        ]
       }, 1000)
     }
   }

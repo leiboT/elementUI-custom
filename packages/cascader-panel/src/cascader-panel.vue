@@ -166,6 +166,8 @@ export default {
     initStore() {
       const { config, options } = this;
       if (config.lazy && isEmpty(options)) {
+        // 重置
+        this.loadCount = 0;
         this.lazyLoad();
       } else {
         this.store = new Store(options, config);

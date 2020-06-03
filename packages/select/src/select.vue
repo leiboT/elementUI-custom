@@ -113,6 +113,7 @@
           wrap-class="el-select-dropdown__wrap"
           view-class="el-select-dropdown__list"
           ref="scrollbar"
+          @infiniteScroll="infiniteScroll"
           :class="{ 'is-empty': !allowCreate && query && filteredOptionsCount === 0 }"
           v-show="options.length > 0 && !loading">
           <el-option
@@ -444,6 +445,10 @@
     },
 
     methods: {
+      infiniteScroll() {
+        // 兼容html上的模板
+        this.$emit('infinite-scroll');
+      },
       handleComposition(event) {
         const text = event.target.value;
         if (event.type === 'compositionend') {

@@ -13,8 +13,9 @@
   <div class="block">
     <span class="demonstration">默认</span>
     <el-date-picker
+      type="inline"
       v-model="value1"
-      type="date"
+      @change="change"
       placeholder="选择日期">
     </el-date-picker>
   </div>
@@ -32,6 +33,14 @@
 
 <script>
   export default {
+    methods: {
+      change (val){
+        debugger
+      }
+    },
+    mounted(){
+      // this.value1 = "2019-03-03"
+    },
     data() {
       return {
         pickerOptions: {
@@ -59,8 +68,8 @@
             }
           }]
         },
-        value1: '',
-        value2: '',
+        value1: '2020-06-02',
+        value2: '2020-06-02',
       };
     }
   };

@@ -1,4 +1,5 @@
 <template>
+  <div v-if="type === 'inline'" ref="inlinePicker"></div>
   <el-input
     class="el-date-editor"
     :class="'el-date-editor--' + type"
@@ -7,7 +8,7 @@
     :size="pickerSize"
     :name="name"
     v-bind="firstInputId"
-    v-if="!ranged"
+    v-else-if="!ranged"
     v-clickoutside="handleClose"
     :placeholder="placeholder"
     @focus="handleFocus"
@@ -45,7 +46,7 @@
     @keydown="handleKeydown"
     ref="reference"
     v-clickoutside="handleClose"
-    v-else>
+    v-else="type !== 'inline'">
     <i :class="['el-input__icon', 'el-range__icon', triggerClass]"></i>
     <input
       autocomplete="off"
@@ -583,6 +584,10 @@ export default {
     this.$on('fieldReset', this.handleFieldReset);
   },
 
+  mounted() {
+    if (this.type === 'inline') this.mountPicker();
+  },
+
   methods: {
     focus() {
       if (!this.ranged) {
@@ -820,14 +825,16 @@ export default {
         this.picker.adjustSpinners && this.picker.adjustSpinners();
       });
     },
-
+    // 增加支持直接使用datePicker面板
     mountPicker() {
-      this.picker = new Vue(this.panel).$mount();
+      this.picker = new Vue(this.panel).$mount(this.type === 'inline' ? this.$refs.inlinePicker : null);
+      if (this.type === 'inline') this.picker.visible = true;
+      if (this.type === 'inline') this.picker.value = this.parsedValue;
       this.picker.defaultValue = this.defaultValue;
       this.picker.defaultTime = this.defaultTime;
       this.picker.popperClass = this.popperClass;
       this.popperElm = this.picker.$el;
-      this.picker.width = this.reference.getBoundingClientRect().width;
+      if (this.type !== 'inline') this.picker.width = this.reference.getBoundingClientRect().width;
       this.picker.showTime = this.type === 'datetime' || this.type === 'datetimerange';
       this.picker.selectionMode = this.selectionMode;
       this.picker.unlinkPanels = this.unlinkPanels;
@@ -835,19 +842,15 @@ export default {
       this.$watch('format', (format) => {
         this.picker.format = format;
       });
-
       const updateOptions = () => {
         const options = this.pickerOptions;
-
         if (options && options.selectableRange) {
           let ranges = options.selectableRange;
           const parser = TYPE_VALUE_RESOLVER_MAP.datetimerange.parser;
           const format = DEFAULT_FORMATS.timerange;
-
           ranges = Array.isArray(ranges) ? ranges : [ranges];
           this.picker.selectableRange = ranges.map(range => parser(range, format, this.rangeSeparator));
         }
-
         for (const option in options) {
           if (options.hasOwnProperty(option) &&
               // 忽略 time-picker 的该配置项
@@ -855,7 +858,6 @@ export default {
             this.picker[option] = options[option];
           }
         }
-
         // main format must prevail over undocumented pickerOptions.format
         if (this.format) {
           this.picker.format = this.format;
@@ -863,17 +865,16 @@ export default {
       };
       updateOptions();
       this.unwatchPickerOptions = this.$watch('pickerOptions', () => updateOptions(), { deep: true });
-      this.$el.appendChild(this.picker.$el);
+      if (this.type !== 'inline') this.$el.appendChild(this.picker.$el);
       this.picker.resetView && this.picker.resetView();
-
       this.picker.$on('dodestroy', this.doDestroy);
       this.picker.$on('pick', (date = '', visible = false) => {
         this.userInput = null;
-        this.pickerVisible = this.picker.visible = visible;
+        if (this.type !== 'inline') this.pickerVisible = this.picker.visible = visible;
         this.emitInput(date);
+        if (this.type === 'inline') this.$emit('change', date);
         this.picker.resetView && this.picker.resetView();
       });
-
       this.picker.$on('select-range', (start, end, pos) => {
         if (this.refInput.length === 0) return;
         if (!pos || pos === 'min') {

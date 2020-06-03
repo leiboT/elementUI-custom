@@ -42,6 +42,7 @@ export default {
   render(h) {
     let gutter = scrollbarWidth();
     let style = this.wrapStyle;
+    let infiniteScroll = this.infiniteScroll;
 
     if (gutter) {
       const gutterWith = `-${gutter}px`;
@@ -63,6 +64,7 @@ export default {
     }, this.$slots.default);
     const wrap = (
       <div
+        v-infinite-scroll={ infiniteScroll }
         ref="wrap"
         style={ style }
         onScroll={ this.handleScroll }
@@ -86,6 +88,7 @@ export default {
     } else {
       nodes = ([
         <div
+          v-infinite-scroll={ infiniteScroll }
           ref="wrap"
           class={ [this.wrapClass, 'el-scrollbar__wrap'] }
           style={ style }>
@@ -97,6 +100,9 @@ export default {
   },
 
   methods: {
+    infiniteScroll() {
+      this.$emit('infiniteScroll');
+    },
     handleScroll() {
       const wrap = this.wrap;
 

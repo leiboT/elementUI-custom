@@ -180,7 +180,7 @@ export default {
               {
                 this.pageSizes.map(item =>
                   <el-option
-                    value={ item === 'all' ? 9999999999 : item }
+                    value={ item === 'all' ? 999999999 : item }
                     label={ item === 'all' ? '全部' : item + this.t('el.pagination.pagesize') }>
                   </el-option>
                 )

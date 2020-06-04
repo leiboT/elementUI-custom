@@ -173,6 +173,14 @@
 
       checkStrictly(newVal) {
         this.store.checkStrictly = newVal;
+      },
+
+      props(newVal) {
+        this.store.props = newVal;
+      },
+
+      nodeKey(newVal) {
+        this.store.key = newVal;
       }
     },
 

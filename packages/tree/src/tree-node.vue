@@ -151,6 +151,14 @@
         if (val) {
           this.childNodeRendered = true;
         }
+      },
+
+      'props.children'(val) {
+        const childrenKey = val['children'] || 'children';
+
+        this.$watch(`node.data.${childrenKey}`, () => {
+          this.node.updateChildren();
+        });
       }
     },
 

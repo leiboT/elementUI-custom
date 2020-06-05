@@ -35,7 +35,7 @@
       key="no-range">
       <date-table
         :date="date"
-        :selected-day="realSelectedDay"
+        :selected-day="multiple ? realSelectedDays : [realSelectedDay]"
         :first-day-of-week="realFirstDayOfWeek"
         @pick="pickDay" />
     </div>
@@ -47,7 +47,7 @@
         v-for="(range, index) in validatedRange"
         :key="index"
         :date="range[0]"
-        :selected-day="realSelectedDay"
+        :selected-day="multiple ? realSelectedDays : [realSelectedDay]"
         :range="range"
         :hide-header="index !== 0"
         :first-day-of-week="realFirstDayOfWeek"
@@ -80,7 +80,12 @@ export default {
   },
 
   props: {
-    value: [Date, String, Number],
+    value: [Date, String, Number, Array],
+    // 开启多选
+    multiple: {
+      type: Boolean,
+      default: false
+    },
     range: {
       type: Array,
       validator(range) {
@@ -108,7 +113,8 @@ export default {
 
   methods: {
     pickDay(day) {
-      this.realSelectedDay = day;
+      if (this.multiple) this.realSelectedDays = day;
+      else this.realSelectedDay = day;
     },
 
     selectDate(type) {
@@ -189,6 +195,29 @@ export default {
       }
     },
 
+    realSelectedDays: {
+      get() {
+        if (!this.value) return [];
+        return this.value.map(day => fecha.format(day, 'yyyy-MM-dd'));
+      },
+      set(val) {
+        const result = [...this.value];
+        const len = result.length;
+        for (let i = 0; i < len; i++) {
+          const date = result[i];
+          const day = fecha.format(date, 'yyyy-MM-dd');
+          if (day === val) {
+            result.splice(i, 1);
+            break;
+          }
+          if (i === len - 1) {
+            result.push(val);
+          }
+        }
+        this.$emit('input', result.map(day => new Date(day)));
+      }
+    },
+
     date() {
       if (!this.value) {
         if (this.realSelectedDay) {
@@ -199,7 +228,7 @@ export default {
         }
         return this.now;
       } else {
-        return this.toDate(this.value);
+        return this.multiple ? this.toDate(this.value[0]) : this.toDate(this.value);
       }
     },
 

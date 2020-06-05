@@ -4,7 +4,7 @@ import { range as rangeArr, getFirstDayOfMonth, getPrevMonthLastDays, getMonthDa
 
 export default {
   props: {
-    selectedDay: String, // formated date yyyy-MM-dd
+    selectedDay: Array, // formated date yyyy-MM-dd
     range: {
       type: Array,
       validator(val) {
@@ -52,7 +52,7 @@ export default {
       const classes = [type];
       if (type === 'current') {
         const date = this.getFormateDate(text, type);
-        if (date === this.selectedDay) {
+        if (this.selectedDay.indexOf(date) > -1) {
           classes.push('is-selected');
         }
         if (date === this.formatedToday) {
@@ -74,7 +74,7 @@ export default {
       const day = this.getFormateDate(text, type);
       const date = new Date(day);
       const data = {
-        isSelected: this.selectedDay === day,
+        isSelected: this.selectedDay.indexOf(day) > -1,
         type: `${type}-month`,
         day
       };

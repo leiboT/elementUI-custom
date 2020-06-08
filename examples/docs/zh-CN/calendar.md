@@ -6,11 +6,16 @@
 
 :::demo 设置 `value` 来指定当前显示的月份。如果 `value` 未指定，则显示当月。`value` 支持 `v-model` 双向绑定。
 ```html
-<el-calendar v-model="value" multiple>
+<el-calendar v-model="value" multiple :validateDate="validateDate">
 </el-calendar>
 
 <script>
   export default {
+    methods: {
+      validateDate(date){
+        return true;
+      }
+    },
     data() {
       return {
         value: [new Date()]

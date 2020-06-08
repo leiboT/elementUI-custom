@@ -34,7 +34,7 @@
       v-if="validatedRange.length === 0"
       key="no-range">
       <date-table
-        :date="date"
+        :date="multiple ? date1 : date"
         :selected-day="multiple ? realSelectedDays : [realSelectedDay]"
         :first-day-of-week="realFirstDayOfWeek"
         @pick="pickDay" />
@@ -102,7 +102,8 @@ export default {
     firstDayOfWeek: {
       type: Number,
       default: 1
-    }
+    },
+    validateDate: Function
   },
 
   provide() {
@@ -113,6 +114,9 @@ export default {
 
   methods: {
     pickDay(day) {
+      if (typeof this.validateDate === 'function') {
+        if (!this.validateDate(day)) return;
+      }
       if (this.multiple) this.realSelectedDays = day;
       else this.realSelectedDay = day;
     },
@@ -129,9 +133,11 @@ export default {
       } else {
         day = this.formatedToday;
       }
-
-      if (day === this.formatedDate) return;
-      this.pickDay(day);
+      if (this.multiple) this.date1 = new Date(day);
+      else {
+        if (day === this.formatedDate) return;
+        this.pickDay(day);
+      }
     },
 
     toDate(val) {
@@ -155,7 +161,8 @@ export default {
 
   computed: {
     prevMonthDatePrefix() {
-      const temp = new Date(this.date.getTime());
+      const d = this.multiple ? this.date1 : this.date;
+      const temp = new Date(d.getTime());
       temp.setDate(0);
       return fecha.format(temp, 'yyyy-MM');
     },
@@ -165,7 +172,8 @@ export default {
     },
 
     nextMonthDatePrefix() {
-      const temp = new Date(this.date.getFullYear(), this.date.getMonth() + 1, 1);
+      const d = this.multiple ? this.date1 : this.date;
+      const temp = new Date(d.getFullYear(), d.getMonth() + 1, 1);
       return fecha.format(temp, 'yyyy-MM');
     },
 
@@ -174,8 +182,9 @@ export default {
     },
 
     i18nDate() {
-      const year = this.date.getFullYear();
-      const month = this.date.getMonth() + 1;
+      const d = this.multiple ? this.date1 : this.date;
+      const year = d.getFullYear();
+      const month = d.getMonth() + 1;
       return `${year} ${this.t('el.datepicker.year')} ${this.t('el.datepicker.month' + month)}`;
     },
 
@@ -301,6 +310,7 @@ export default {
 
   data() {
     return {
+      date1: new Date(),
       selectedDay: '',
       now: new Date()
     };

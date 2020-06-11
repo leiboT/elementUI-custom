@@ -212,16 +212,20 @@ export default {
       set(val) {
         const result = [...this.value];
         const len = result.length;
-        for (let i = 0; i < len; i++) {
-          const date = result[i];
-          const day = fecha.format(date, 'yyyy-MM-dd');
-          if (day === val) {
-            result.splice(i, 1);
-            break;
+        if (len > 0) {
+          for (let i = 0; i < len; i++) {
+            const date = result[i];
+            const day = fecha.format(date, 'yyyy-MM-dd');
+            if (day === val) {
+              result.splice(i, 1);
+              break;
+            }
+            if (i === len - 1) {
+              result.push(val);
+            }
           }
-          if (i === len - 1) {
-            result.push(val);
-          }
+        } else {
+          result.push(val);
         }
         this.$emit('input', result.map(day => new Date(day)));
       }

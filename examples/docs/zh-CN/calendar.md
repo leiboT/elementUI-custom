@@ -18,7 +18,7 @@
     },
     data() {
       return {
-        value: [new Date()]
+        value: []
       }
     }
   }

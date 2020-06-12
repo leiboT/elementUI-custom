@@ -16,7 +16,7 @@
       ref="input"
       v-model="multiple ? presentText : inputValue"
       :size="realSize"
-      :placeholder="placeholder"
+      :placeholder="typeof placeholder !== 'undefined' ? placeholder : t('el.cascader.placeholder')"
       :readonly="readonly"
       :disabled="isDisabled"
       :validate-event="false"
@@ -59,7 +59,7 @@
         v-model.trim="inputValue"
         type="text"
         class="el-cascader__search-input"
-        :placeholder="presentTags.length ? '' : placeholder"
+        :placeholder="presentTags.length ? '' : typeof placeholder !== 'undefined' ? placeholder : t('el.cascader.placeholder')"
         @input="e => handleInput(inputValue, e)"
         @click.stop="toggleDropDownVisible(true)"
         @keydown.delete="handleDelete">
@@ -122,7 +122,6 @@ import ElTag from 'element-ui/packages/tag';
 import ElScrollbar from 'element-ui/packages/scrollbar';
 import ElCascaderPanel from 'element-ui/packages/cascader-panel';
 import AriaUtils from 'element-ui/src/utils/aria-utils';
-import { t } from 'element-ui/src/locale';
 import { isEqual, isEmpty, kebabCase } from 'element-ui/src/utils/util';
 import { isUndefined, isFunction } from 'element-ui/src/utils/types';
 import { isDef } from 'element-ui/src/utils/shared';
@@ -200,10 +199,7 @@ export default {
     options: Array,
     props: Object,
     size: String,
-    placeholder: {
-      type: String,
-      default: () => t('el.cascader.placeholder')
-    },
+    placeholder: String,
     disabled: Boolean,
     clearable: Boolean,
     filterable: Boolean,

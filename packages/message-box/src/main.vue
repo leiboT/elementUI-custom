@@ -84,7 +84,6 @@
   import ElInput from 'element-ui/packages/input';
   import ElButton from 'element-ui/packages/button';
   import { addClass, removeClass } from 'element-ui/src/utils/dom';
-  import { t } from 'element-ui/src/locale';
   import Dialog from 'element-ui/src/utils/aria-dialog';
 
   let messageBox;
@@ -202,7 +201,7 @@
         if (this.$type === 'prompt') {
           const inputPattern = this.inputPattern;
           if (inputPattern && !inputPattern.test(this.inputValue || '')) {
-            this.editorErrorMessage = this.inputErrorMessage || t('el.messagebox.error');
+            this.editorErrorMessage = this.inputErrorMessage || this.t('el.messagebox.error');
             addClass(this.getInputElement(), 'invalid');
             return false;
           }
@@ -210,7 +209,7 @@
           if (typeof inputValidator === 'function') {
             const validateResult = inputValidator(this.inputValue);
             if (validateResult === false) {
-              this.editorErrorMessage = this.inputErrorMessage || t('el.messagebox.error');
+              this.editorErrorMessage = this.inputErrorMessage || this.t('el.messagebox.error');
               addClass(this.getInputElement(), 'invalid');
               return false;
             }

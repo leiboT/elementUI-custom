@@ -20,14 +20,14 @@
         :type="cancelButtonType" 
         @click="cancel"
       >
-        {{cancelButtonText}}
+        {{typeof cancelButtonText !== 'undefined' ? cancelButtonText : t('el.popconfirm.cancelButtonText')}}
       </el-button>
       <el-button 
         size="mini" 
         :type="confirmButtonType" 
         @click="confirm"
       >
-        {{confirmButtonText}}
+        {{typeof confirmButtonText !== 'undefined' ? confirmButtonText : t('el.popconfirm.confirmButtonText')}}
       </el-button>
     </div>
   </div>
@@ -38,22 +38,17 @@
 <script>
 import ElPopover from 'element-ui/packages/popover';
 import ElButton from 'element-ui/packages/button';
-import {t} from 'element-ui/src/locale';
+import Locale from 'element-ui/src/mixins/locale';
 
 export default {
   name: 'ElPopconfirm',
+  mixins: [Locale],
   props: {
     title: {
       type: String
     },
-    confirmButtonText: {
-      type: String,
-      default: t('el.popconfirm.confirmButtonText')
-    },
-    cancelButtonText: {
-      type: String,
-      default: t('el.popconfirm.cancelButtonText')
-    },
+    confirmButtonText: String,
+    cancelButtonText: String,
     confirmButtonType: {
       type: String,
       default: 'primary'

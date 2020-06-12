@@ -71,7 +71,7 @@
       ref="reference"
       v-model="selectedLabel"
       type="text"
-      :placeholder="currentPlaceholder"
+      :placeholder="typeof currentPlaceholder !== 'undefined' ? currentPlaceholder : t('el.select.placeholder')"
       :name="name"
       :id="id"
       :autocomplete="autoComplete || autocomplete"
@@ -149,7 +149,6 @@
   import debounce from 'throttle-debounce/debounce';
   import Clickoutside from 'element-ui/src/utils/clickoutside';
   import { addResizeListener, removeResizeListener } from 'element-ui/src/utils/resize-event';
-  import { t } from 'element-ui/src/locale';
   import scrollIntoView from 'element-ui/src/utils/scroll-into-view';
   import { getValueByPath, valueEquals, isIE, isEdge } from 'element-ui/src/utils/util';
   import NavigationMixin from './navigation-mixin';
@@ -290,12 +289,7 @@
         type: Number,
         default: 0
       },
-      placeholder: {
-        type: String,
-        default() {
-          return t('el.select.placeholder');
-        }
-      },
+      placeholder: String,
       defaultFirstOption: Boolean,
       reserveKeyword: Boolean,
       valueKey: {

@@ -20,7 +20,7 @@
       @node-expand="handleNodeExpand">
     </el-tree-node>
     <div class="el-tree__empty-block" v-if="isEmpty">
-      <span class="el-tree__empty-text">{{ emptyText }}</span>
+      <span class="el-tree__empty-text">{{ emptyText || t('el.tree.emptyText') }}</span>
     </div>
     <div
       v-show="dragState.showDropIndicator"
@@ -34,14 +34,14 @@
   import TreeStore from './model/tree-store';
   import { getNodeKey, findNearestComponent } from './model/util';
   import ElTreeNode from './tree-node.vue';
-  import {t} from 'element-ui/src/locale';
+  import Locale from 'element-ui/src/mixins/locale';
   import emitter from 'element-ui/src/mixins/emitter';
   import { addClass, removeClass } from 'element-ui/src/utils/dom';
 
   export default {
     name: 'ElTree',
 
-    mixins: [emitter],
+    mixins: [emitter, Locale],
 
     components: {
       ElTreeNode
@@ -67,12 +67,7 @@
       data: {
         type: Array
       },
-      emptyText: {
-        type: String,
-        default() {
-          return t('el.tree.emptyText');
-        }
-      },
+      emptyText: String,
       renderAfterExpand: {
         type: Boolean,
         default: true

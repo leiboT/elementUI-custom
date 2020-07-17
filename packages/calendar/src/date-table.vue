@@ -50,15 +50,15 @@ export default {
 
     getCellClass({ text, type}) {
       const classes = [type];
-      if (type === 'current') {
-        const date = this.getFormateDate(text, type);
-        if (this.selectedDay.indexOf(date) > -1) {
-          classes.push('is-selected');
-        }
-        if (date === this.formatedToday) {
-          classes.push('is-today');
-        }
+      // if (type === 'current') {
+      const date = this.getFormateDate(text, type);
+      if (this.selectedDay.indexOf(date) > -1) {
+        classes.push('is-selected');
       }
+      if (date === this.formatedToday) {
+        classes.push('is-today');
+      }
+      // }
       return classes;
     },
 

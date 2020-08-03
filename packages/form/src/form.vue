@@ -186,10 +186,11 @@
       },
       getLabelWidthIndex(width) {
         const index = this.potentialLabelWidthArr.indexOf(width);
+        // 不可能？？？
         // it's impossible
-        if (index === -1) {
-          throw new Error('[ElementForm]unpected width ', width);
-        }
+        // if (index === -1) {
+        //   throw new Error('[ElementForm]unpected width ', width);
+        // }
         return index;
       },
       registerLabelWidth(val, oldVal) {
@@ -202,7 +203,7 @@
       },
       deregisterLabelWidth(val) {
         const index = this.getLabelWidthIndex(val);
-        this.potentialLabelWidthArr.splice(index, 1);
+        if (index > -1) this.potentialLabelWidthArr.splice(index, 1);
       }
     }
   };

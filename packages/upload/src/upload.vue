@@ -44,6 +44,8 @@ export default {
       default: ajax
     },
     disabled: Boolean,
+    // 批量上传
+    batchUpload: Boolean,
     limit: Number,
     onExceed: Function
   },
@@ -76,10 +78,21 @@ export default {
 
       if (postFiles.length === 0) { return; }
 
-      postFiles.forEach(rawFile => {
-        this.onStart(rawFile);
-        if (this.autoUpload) this.upload(rawFile);
-      });
+      if (this.batchUpload) {
+        let canUploadFiles = postFiles;
+        if (this.beforeUpload) {
+          canUploadFiles = canUploadFiles.filter(rawFile => this.beforeUpload(rawFile));
+        }
+        canUploadFiles.forEach(rawFile => {
+          this.onStart(rawFile);
+        });
+        this.post({}, canUploadFiles);
+      } else {
+        postFiles.forEach(rawFile => {
+          this.onStart(rawFile);
+          if (this.autoUpload) this.upload(rawFile);
+        });
+      }
     },
     upload(rawFile) {
       this.$refs.input.value = null;
@@ -132,24 +145,25 @@ export default {
         });
       }
     },
-    post(rawFile) {
-      const { uid } = rawFile;
+    post(rawFile, files) {
+      const { uid = 0 } = rawFile;
       const options = {
         headers: this.headers,
         withCredentials: this.withCredentials,
         file: rawFile,
+        files,
         data: this.data,
         filename: this.name,
         action: this.action,
         onProgress: e => {
           this.onProgress(e, rawFile);
         },
-        onSuccess: res => {
-          this.onSuccess(res, rawFile);
+        onSuccess: (res, file) => {
+          this.onSuccess(res, file || rawFile);
           delete this.reqs[uid];
         },
-        onError: err => {
-          this.onError(err, rawFile);
+        onError: (err, file) => {
+          this.onError(err, file || rawFile);
           delete this.reqs[uid];
         }
       };

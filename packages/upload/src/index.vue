@@ -99,6 +99,8 @@ export default {
     },
     httpRequest: Function,
     disabled: Boolean,
+    // 批量上传
+    batchUpload: Boolean,
     limit: Number,
     onExceed: {
       type: Function,
@@ -305,6 +307,7 @@ export default {
         autoUpload: this.autoUpload,
         listType: this.listType,
         disabled: this.uploadDisabled,
+        batchUpload: this.batchUpload,
         limit: this.limit,
         'on-exceed': this.onExceed,
         'on-start': this.handleStart,

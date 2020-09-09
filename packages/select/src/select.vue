@@ -110,6 +110,7 @@
         v-show="visible && emptyText !== false">
         <el-scrollbar
           tag="ul"
+          style="background-color: #fff"
           wrap-class="el-select-dropdown__wrap"
           view-class="el-select-dropdown__list"
           ref="scrollbar"
@@ -129,7 +130,7 @@
             {{ emptyText }}
           </p>
         </template>
-        <div style="padding: 10px 10px;" v-if="$slots.footer">
+        <div style="padding: 10px 10px; background-color: #fff;" v-if="$slots.footer">
           <slot name="footer"></slot>
         </div>
       </el-select-menu>

@@ -44,6 +44,7 @@
     props: {
       value: String,
       showAlpha: Boolean,
+      returnHex: Boolean,
       colorFormat: String,
       disabled: Boolean,
       size: String,
@@ -108,7 +109,10 @@
 
         const currentValueColorRgb = this.displayedRgb(currentValueColor, this.showAlpha);
         if (val !== currentValueColorRgb) {
-          this.$emit('active-change', val);
+          if (this.returnHex) {
+            currentValueColor.fromString(val);
+          }
+          this.$emit('active-change', this.returnHex ? currentValueColor.value : val);
         }
       }
     },

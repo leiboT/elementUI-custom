@@ -111,7 +111,7 @@
         <el-scrollbar
           tag="ul"
           style="background-color: #fff"
-          :wrap-style="innerDropdownWrapStyle"
+          :wrap-style="scrollbarWrapStyle"
           wrap-class="el-select-dropdown__wrap"
           view-class="el-select-dropdown__list"
           ref="scrollbar"
@@ -329,7 +329,7 @@
         menuVisibleOnFocus: false,
         isOnComposition: false,
         isSilentBlur: false,
-        innerDropdownWrapStyle: ''
+        scrollbarWrapStyle: ''
       };
     },
 
@@ -444,11 +444,11 @@
     methods: {
       resizeHandle() {
         const ch = document.documentElement.clientHeight;
-        if (ch - 60 < 274) {
-          this.innerDropdownWrapStyle = `max-height: ${ch - 60}px; `;
-        } else {
-          this.innerDropdownWrapStyle = '';
+        let maxHeight = ch - 60 - 70;
+        if (maxHeight > 274) {
+          maxHeight = 274;
         }
+        this.scrollbarWrapStyle = `max-height: ${maxHeight}px; `;
       },
       infiniteScroll() {
         // 兼容html上的模板

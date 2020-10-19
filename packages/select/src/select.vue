@@ -111,6 +111,7 @@
         <el-scrollbar
           tag="ul"
           style="background-color: #fff"
+          :wrap-style="innerDropdownWrapStyle"
           wrap-class="el-select-dropdown__wrap"
           view-class="el-select-dropdown__list"
           ref="scrollbar"
@@ -327,7 +328,8 @@
         currentPlaceholder: '',
         menuVisibleOnFocus: false,
         isOnComposition: false,
-        isSilentBlur: false
+        isSilentBlur: false,
+        innerDropdownWrapStyle: ''
       };
     },
 
@@ -440,6 +442,14 @@
     },
 
     methods: {
+      resizeHandle() {
+        const ch = document.documentElement.clientHeight;
+        if (ch - 60 < 274) {
+          this.innerDropdownWrapStyle = `max-height: ${ch - 60}px; `;
+        } else {
+          this.innerDropdownWrapStyle = '';
+        }
+      },
       infiniteScroll() {
         // 兼容html上的模板
         this.$emit('infinite-scroll');
@@ -862,6 +872,8 @@
     },
 
     mounted() {
+      this.resizeHandle();
+      window.addEventListener('resize', this.resizeHandle);
       if (this.multiple && Array.isArray(this.value) && this.value.length > 0) {
         this.currentPlaceholder = '';
       }
@@ -889,6 +901,7 @@
     },
 
     beforeDestroy() {
+      window.removeEventListener('resize', this.resizeHandle);
       if (this.$el && this.handleResize) removeResizeListener(this.$el, this.handleResize);
     }
   };

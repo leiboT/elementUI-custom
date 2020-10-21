@@ -254,6 +254,10 @@
     directives: { Clickoutside },
 
     props: {
+      colNum: {
+        type: Number,
+        default: 2
+      },
       name: String,
       id: String,
       value: {
@@ -898,6 +902,11 @@
         }
       });
       this.setSelected();
+      if (this.colNum) {
+        const saveDom = this.$refs.scrollbar.$el.getElementsByClassName('el-select-dropdown__list');
+        saveDom[0].style['display'] = 'grid';
+        saveDom[0].style['grid-template-columns'] = `repeat(${this.colNum}, ${Math.floor(100 / this.colNum)}%)`;
+      }
     },
 
     beforeDestroy() {

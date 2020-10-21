@@ -164,7 +164,7 @@ export default {
         switch (keyCode) {
           // ESC
           case 27:
-            this.hide();
+            this.onClose();
             break;
           // SPACE
           case 32:

@@ -256,7 +256,7 @@
     props: {
       colNum: {
         type: Number,
-        default: 2
+        default: 1
       },
       name: String,
       id: String,
@@ -902,10 +902,10 @@
         }
       });
       this.setSelected();
-      if (this.colNum) {
+      if (this.colNum > 1) {
         const saveDom = this.$refs.scrollbar.$el.getElementsByClassName('el-select-dropdown__list');
         saveDom[0].style['display'] = 'grid';
-        saveDom[0].style['grid-template-columns'] = `repeat(${this.colNum}, ${Math.floor(100 / this.colNum)}%)`;
+        saveDom[0].style['grid-template-columns'] = `repeat(${this.colNum}, auto)`;
       }
     },
 

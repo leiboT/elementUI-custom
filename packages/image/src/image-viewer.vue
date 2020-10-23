@@ -155,7 +155,6 @@ export default {
   },
   methods: {
     hide() {
-      this.deviceSupportUninstall();
       this.onClose();
     },
     deviceSupportInstall() {

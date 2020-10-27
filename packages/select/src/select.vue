@@ -252,11 +252,14 @@
     },
 
     directives: { Clickoutside },
-
     props: {
       colNum: {
         type: Number,
         default: 1
+      },
+      rowHeight: {
+        type: Number,
+        default: 3
       },
       name: String,
       id: String,
@@ -906,6 +909,7 @@
         const saveDom = this.$refs.scrollbar.$el.getElementsByClassName('el-select-dropdown__list');
         saveDom[0].style['display'] = 'grid';
         saveDom[0].style['grid-template-columns'] = `repeat(${this.colNum}, auto)`;
+        saveDom[0].style['height'] = `${this.rowHeight * 36}px`;
       }
     },
 

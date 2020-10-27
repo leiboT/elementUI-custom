@@ -257,7 +257,7 @@
         type: Number,
         default: 1
       },
-      rowHeight: {
+      rowNum: {
         type: Number,
         default: 3
       },
@@ -909,7 +909,7 @@
         const saveDom = this.$refs.scrollbar.$el.getElementsByClassName('el-select-dropdown__list');
         saveDom[0].style['display'] = 'grid';
         saveDom[0].style['grid-template-columns'] = `repeat(${this.colNum}, auto)`;
-        saveDom[0].style['height'] = `${this.rowHeight * 36}px`;
+        saveDom[0].style['height'] = `${this.rowNum * 36}px`;
       }
     },
 

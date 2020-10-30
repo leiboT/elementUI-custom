@@ -6,6 +6,8 @@
     padding: 0;
     position: relative;
     margin: 0 0 15px;
+    display: flex;
+    align-items: center;
   }
   @include e(active-bar) {
     position: absolute;
@@ -43,6 +45,7 @@
     overflow: hidden;
     margin-bottom: -1px;
     position: relative;
+    flex: 1;
 
     &::after {
       content: "";

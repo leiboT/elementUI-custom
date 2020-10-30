@@ -150,8 +150,10 @@
       };
       const header = (
         <div class={['el-tabs__header', `is-${tabPosition}`]}>
-          {newButton}
+          {this.$slots.navLeft ? this.$slots.navLeft : null}
           <tab-nav { ...navData }></tab-nav>
+          {this.$slots.navRight ? this.$slots.navRight : null}
+          {newButton}
         </div>
       );
       const panels = (

@@ -59,7 +59,8 @@
       tabindex: {
         type: Number,
         default: 0
-      }
+      },
+      disabled: Boolean
     },
 
     data() {
@@ -111,14 +112,14 @@
         };
       },
       show() {
-        if (this.triggerElm.disabled) return;
+        if (this.triggerElm.disabled || this.disabled) return;
         clearTimeout(this.timeout);
         this.timeout = setTimeout(() => {
           this.visible = true;
         }, this.trigger === 'click' ? 0 : this.showTimeout);
       },
       hide() {
-        if (this.triggerElm.disabled) return;
+        if (this.triggerElm.disabled || this.disabled) return;
         this.removeTabindex();
         if (this.tabindex >= 0) {
           this.resetTabindex(this.triggerElm);
@@ -129,7 +130,7 @@
         }, this.trigger === 'click' ? 0 : this.hideTimeout);
       },
       handleClick() {
-        if (this.triggerElm.disabled) return;
+        if (this.triggerElm.disabled || this.disabled) return;
         if (this.visible) {
           this.hide();
         } else {

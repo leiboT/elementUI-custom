@@ -316,6 +316,9 @@ export default {
           this.toggleDropDownVisible(false);
         }
 
+        if (!multiple) {
+          this.$refs.input.focus();
+        }
         this.$emit('input', val);
         this.$emit('change', val);
         this.dispatch('ElFormItem', 'el.form.change', [val]);

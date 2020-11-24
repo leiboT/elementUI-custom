@@ -6,6 +6,7 @@
     <div
       v-show="visible"
       class="el-dialog__wrapper"
+      :style="{position: appendToBody ? null : 'absolute'}"
       @click.self="handleWrapperClick">
       <div
         role="dialog"

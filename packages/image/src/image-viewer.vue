@@ -1,5 +1,5 @@
 <template>
-  <transition name="viewer-fade">
+  <transition name="viewer-fade" @after-enter="afterEnterHandle">
     <div tabindex="-1" ref="el-image-viewer__wrapper" class="el-image-viewer__wrapper" :style="{ 'z-index': zIndex }">
       <div class="el-image-viewer__mask"></div>
       <!-- CLOSE -->
@@ -154,6 +154,9 @@ export default {
     }
   },
   methods: {
+    afterEnterHandle(el) {
+      el.focus();
+    },
     hide() {
       this.onClose();
     },

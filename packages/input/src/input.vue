@@ -24,6 +24,7 @@
         :tabindex="tabindex"
         v-if="type !== 'textarea'"
         class="el-input__inner"
+        :style="{paddingRight: suffixWidth + 'px'}"
         v-bind="$attrs"
         :type="showPassword ? (passwordVisible ? 'text': 'password') : type"
         :disabled="inputDisabled"
@@ -147,6 +148,7 @@
     },
 
     props: {
+      suffixWidth: Number,
       value: [String, Number],
       size: String,
       resize: String,

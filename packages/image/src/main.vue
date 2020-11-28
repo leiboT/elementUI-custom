@@ -246,6 +246,7 @@
             const component = new A().$mount();
             imageViewerDom = component.$el;
             document.body.appendChild(imageViewerDom);
+            imageViewerDom.focus();
           }
         }
       },

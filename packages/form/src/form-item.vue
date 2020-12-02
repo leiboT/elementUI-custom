@@ -10,9 +10,10 @@
     sizeClass ? 'el-form-item--' + sizeClass : ''
   ]">
     <label-wrap
+      ref="labelWrap"
       :is-auto-width="labelStyle && labelStyle.width === 'auto'"
-      :update-all="form.labelWidth === 'auto'">
-      <label :for="labelFor" class="el-form-item__label" :style="labelStyle" v-if="label || $slots.label" :title="label">
+      :update-all="form.labelWidth === 'auto' || labelWidth === 'auto'">
+      <label :for="labelFor" class="el-form-item__label" :style="labelStyle" v-if="label || $slots.label" :title="title">
         <slot name="label">{{label + form.labelSuffix}}</slot>
       </label>
     </label-wrap>
@@ -61,6 +62,7 @@
 
     props: {
       label: String,
+      title: String,
       labelWidth: String,
       prop: String,
       required: {
@@ -298,6 +300,11 @@
       }
     },
     mounted() {
+      this.$on('reComputedLabelWidth', (ops) => {
+        this.$nextTick(() => {
+          if (ops.isActive) this.$refs.labelWrap.updateLabelWidth('update');
+        });
+      });
       if (this.prop) {
         this.dispatch('ElForm', 'el.form.addField', [this]);
 

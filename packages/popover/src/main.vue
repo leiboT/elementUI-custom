@@ -23,6 +23,7 @@
 </template>
 <script>
 import Popper from 'element-ui/src/utils/vue-popper';
+import { addResizeListener, removeResizeListener } from 'element-ui/src/utils/resize-event';
 import { on, off } from 'element-ui/src/utils/dom';
 import { addClass, removeClass } from 'element-ui/src/utils/dom';
 import { generateId } from 'element-ui/src/utils/util';
@@ -84,6 +85,9 @@ export default {
   },
 
   mounted() {
+    addResizeListener(this.$refs.popper, () => {
+      this.updatePopper();
+    });
     let reference = this.referenceElm = this.reference || this.$refs.reference;
     const popper = this.popper || this.$refs.popper;
 
@@ -135,6 +139,7 @@ export default {
   },
 
   beforeDestroy() {
+    removeResizeListener(this.$refs.popper);
     this.cleanup();
   },
 

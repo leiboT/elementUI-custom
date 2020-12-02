@@ -103,6 +103,7 @@
       handleHeaderClick() {
         if (this.disabled) return;
         this.dispatch('ElCollapse', 'item-click', this);
+        this.broadcast('ElFormItem', 'reComputedLabelWidth', this);
         this.focusing = false;
         this.isClick = true;
       },

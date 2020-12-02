@@ -14,7 +14,7 @@ export default {
     if (this.isAutoWidth) {
       const autoLabelWidth = this.elForm.autoLabelWidth;
       const style = {};
-      if (autoLabelWidth && autoLabelWidth !== 'auto') {
+      if (autoLabelWidth && autoLabelWidth !== 'auto' && this.elFormItem.labelWidth !== 'auto') {
         const marginLeft = parseInt(autoLabelWidth, 10) - this.computedWidth;
         if (marginLeft) {
           style.marginLeft = marginLeft + 'px';

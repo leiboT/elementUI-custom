@@ -19,6 +19,7 @@
           :aria-label="title"
           class="el-drawer"
           :class="[direction, customClass]"
+          style="outline: none;"
           :style="isHorizontal ? `width: ${size}` : `height: ${size}`"
           ref="drawer"
           role="dialog"

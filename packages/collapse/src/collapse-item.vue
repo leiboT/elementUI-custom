@@ -21,7 +21,7 @@
         @focus="handleFocus"
         @blur="focusing = false"
       >
-        <slot name="title">{{title}}</slot>
+        <div class="el-collapse-item__title"><slot name="title">{{title}}</slot></div>
         <i
           class="el-collapse-item__arrow el-icon-arrow-right"
           :class="{'is-active': isActive}">

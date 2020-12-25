@@ -25,6 +25,7 @@
       rules: Object,
       labelPosition: String,
       labelWidth: String,
+      labelMaxWidth: Number,
       labelSuffix: {
         type: String,
         default: ''

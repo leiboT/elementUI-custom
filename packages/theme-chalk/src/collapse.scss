@@ -26,6 +26,12 @@
     font-weight: 500;
     transition: border-bottom-color .3s;
     outline: none;
+    @include e(title) {
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
     @include e(arrow) {
       margin: 0 8px 0 auto;
       transition: transform .3s;

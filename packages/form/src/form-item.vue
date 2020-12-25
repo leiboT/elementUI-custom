@@ -110,6 +110,10 @@
         if (labelWidth) {
           ret.width = labelWidth;
         }
+        const labelMaxWidth = this.elForm.labelMaxWidth;
+        if (labelMaxWidth) {
+          ret.maxWidth = `${labelMaxWidth}px`;
+        }
         return ret;
       },
       contentStyle() {
@@ -119,10 +123,11 @@
         if (!label && !this.labelWidth && this.isNested) return ret;
         const labelWidth = this.labelWidth || this.form.labelWidth;
         if (labelWidth === 'auto') {
+          const labelMaxWidth = this.elForm.labelMaxWidth;
           if (this.labelWidth === 'auto') {
-            ret.marginLeft = this.computedLabelWidth;
+            ret.marginLeft = labelMaxWidth && parseFloat(this.computedLabelWidth) > labelMaxWidth ? `${labelMaxWidth}px` : this.computedLabelWidth;
           } else if (this.form.labelWidth === 'auto') {
-            ret.marginLeft = this.elForm.autoLabelWidth;
+            ret.marginLeft = labelMaxWidth && parseFloat(this.elForm.autoLabelWidth) > labelMaxWidth ? `${labelMaxWidth}px` : this.elForm.autoLabelWidth;
           }
         } else {
           ret.marginLeft = labelWidth;

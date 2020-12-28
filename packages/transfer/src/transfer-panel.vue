@@ -5,8 +5,9 @@
         v-model="allChecked"
         @change="handleAllCheckedChange"
         :indeterminate="isIndeterminate">
-        {{ title }}
-        <span>{{ checkedSummary }}</span>
+        <slot v-if="$slots.title" name="title"></slot>
+        <template v-else>{{ title }}</template>
+        <span class="el-checkbox__label_span">{{ checkedSummary }}</span>
       </el-checkbox>
     </p>
     

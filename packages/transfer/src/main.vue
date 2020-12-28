@@ -8,6 +8,9 @@
       :default-checked="leftDefaultChecked"
       :placeholder="filterPlaceholder || t('el.transfer.filterPlaceholder')"
       @checked-change="onSourceCheckedChange">
+      <template v-if="$slots.leftTitle" slot="title">
+        <slot name="leftTitle"></slot>
+      </template>
       <slot name="left-footer"></slot>
     </transfer-panel>
     <div class="el-transfer__buttons">
@@ -36,6 +39,9 @@
       :default-checked="rightDefaultChecked"
       :placeholder="filterPlaceholder || t('el.transfer.filterPlaceholder')"
       @checked-change="onTargetCheckedChange">
+      <template v-if="$slots.rightTitle" slot="title">
+        <slot name="rightTitle"></slot>
+      </template>
       <slot name="right-footer"></slot>
     </transfer-panel>
   </div>

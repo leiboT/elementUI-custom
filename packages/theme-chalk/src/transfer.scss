@@ -172,8 +172,9 @@
         color: $--color-text-primary;
         font-weight: normal;
 
-        span {
+        .el-checkbox__label_span {
           position: absolute;
+          top: 10.5px;
           right: 15px;
           color: $--color-text-secondary;
           font-size: 12px;

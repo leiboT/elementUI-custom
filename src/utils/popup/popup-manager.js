@@ -161,6 +161,7 @@ Object.defineProperty(PopupManager, 'zIndex', {
     return zIndex;
   },
   set(value) {
+    if (Vue.prototype.$ELEMENT) Vue.prototype.$ELEMENT.zIndex = value;
     zIndex = value;
   }
 });

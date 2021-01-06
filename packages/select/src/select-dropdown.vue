@@ -17,6 +17,12 @@
 
     mixins: [Popper],
 
+    inject: {
+      sfCommonModal: {
+        default: ''
+      }
+    },
+
     props: {
       placement: {
         default: 'bottom-start'
@@ -58,7 +64,13 @@
 
     watch: {
       '$parent.inputWidth'() {
-        this.minWidth = this.$parent.$el.getBoundingClientRect().width + 'px';
+        if (this.sfCommonModal) {
+          setTimeout(() => {
+            this.minWidth = this.$parent.$el.getBoundingClientRect().width + 'px';
+          }, this.sfCommonModal.animationTime);
+        } else {
+          this.minWidth = this.$parent.$el.getBoundingClientRect().width + 'px';
+        }
       }
     },
 

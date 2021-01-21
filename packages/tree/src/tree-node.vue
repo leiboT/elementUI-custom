@@ -35,7 +35,7 @@
       >
       </span>
       <el-checkbox
-        v-if="showCheckbox"
+        v-if="showCheckbox && !checkboxInRight"
         v-model="node.checked"
         :indeterminate="node.indeterminate"
         :disabled="!!node.disabled"
@@ -48,6 +48,15 @@
         class="el-tree-node__loading-icon el-icon-loading">
       </span>
       <node-content :node="node"></node-content>
+      <el-checkbox
+        v-if="showCheckbox && checkboxInRight"
+        v-model="node.checked"
+        :indeterminate="node.indeterminate"
+        :disabled="!!node.disabled"
+        @click.native.stop
+        @change="handleCheckChange"
+      >
+      </el-checkbox>
     </div>
     <el-collapse-transition>
       <div
@@ -62,6 +71,7 @@
           v-for="child in node.childNodes"
           :render-after-expand="renderAfterExpand"
           :show-checkbox="showCheckbox"
+          :checkboxInRight="checkboxInRight"
           :key="getNodeKey(child)"
           :node="child"
           @node-expand="handleChildNodeExpand">
@@ -97,6 +107,10 @@
         default: true
       },
       showCheckbox: {
+        type: Boolean,
+        default: false
+      },
+      checkboxInRight: {
         type: Boolean,
         default: false
       }
